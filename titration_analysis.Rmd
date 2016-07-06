@@ -1,14 +1,27 @@
 ---
 title: "Explant titrations"
-output: html_document
+output:
+  md_document:
+    variant: markdown_github
 ---
+## Explant Titrations
 
+
+### Goal
+
+Titrate lot1 of vNL_sNLuc_6ATRi.B.Bal.ecto based on the kinetics of RA and KW's virus; "Bal26 lot1", at the concentration that they use for infection experiments (dilution factor of 17.91, I think...)
  
 ## Titration 001
 
-This is a plot of luciferase production over days 1 - 14 for multiple conditions. The conditions are in the format virus type:dilution factor. Day 1 supernatent still contains input virus. 1 wash is still day 1 but after the explants have been washed to remove input virus. It looks like our virus with a dilution factors of 34.38 or 17.19 look closest to RA/KW's virus.
+This is a plot of luciferase production over days 1 - 14 for multiple conditions. The "Hladik Bal lot1" virus is vNL_sNLuc_6ATRi.B.Bal.ecto made by Greg Mize
 
-The "Hladik Bal lot1" virus is vNL_sNLuc_6ATRi.B.Bal.ecto made by Greg Mize
+* The conditions are in the format virus type:dilution factor. 
+
+* Day 1 supernatent still contains input virus. 1 wash is still day 1 but after the explants have been washed to remove input virus. 
+
+* Hladik Bal26 lot1 with a dilution factors of 34.38 or 17.19 look closest to RA/KW's virus.
+
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -33,7 +46,9 @@ ggplot(titer001_day1_14, aes(x = Day, y = RLU))+
 
 ```
 
-This is a plot of the luciferase over time from day1- 21 but we included fewer conditions based on the results from the first run of d1-14 with all conditions. Our virus with a dilution factor of 17.19 looks closest.
+This is a plot of the luciferase over time from day1- 21 but we included fewer conditions based on the results from the first run of d1-14 with all conditions. 
+
+* Hladik Bal26 lot1 with a dilution factor of 17.19 looks closest to Bal26 lot1.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -56,7 +71,10 @@ ggplot(titer001_day1_21ACD, aes(x = Day, y = RLU))+
 
 ## Titration 002
 
-Lucia set up a second titration experiment on 14June16 with the following results:
+Lucia set up a second titration experiment on 14June16. 
+
+* Hladik Bal with a dilution factor of 25 matches the kinetics of Bal26 lot1, but I'm not sure why they are so different from all the other conditions. 
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #Read in data from 07July16 nanoluc assay.
@@ -70,3 +88,16 @@ ggplot(titer002_day1_21, aes(x = Day, y = RLU))+
   geom_point(aes(color = Condition))+
   geom_line(aes(group = Condition, color = Condition))+
   scale_y_log10()
+```
+
+## Conclusions
+
+* Based on three nanoluc assays from two different titrations, the dilution factors for Hladik Bal lot1 virus that resulted in kinetics that were closest to Bal26 lot1 were a range between ~9 to 25.
+
+## Caveats
+
+* The "No virus" control was kind of high for the second titration.
+
+* The Bal26 lot1 and Hladik Bal lot1 lines, both with dilution factor of 17.91 were very low compared to all the other dilutions
+
+
