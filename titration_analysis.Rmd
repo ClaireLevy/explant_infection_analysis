@@ -1,0 +1,72 @@
+---
+title: "Explant titrations"
+output: html_document
+---
+
+ 
+## Titration 001
+
+This is a plot of luciferase production over days 1 - 14 for multiple conditions. The conditions are in the format virus type:dilution factor. Day 1 supernatent still contains input virus. 1 wash is still day 1 but after the explants have been washed to remove input virus. It looks like our virus with a dilution factors of 34.38 or 17.19 look closest to RA/KW's virus.
+
+The "Hladik Bal lot1" virus is vNL_sNLuc_6ATRi.B.Bal.ecto made by Greg Mize
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+library(dplyr)
+library(plateR)
+library(ggplot2)
+
+#Read in data collected 07June16 from day1-day14. I put the raw data into a file with the meta data in plateR format
+
+titer001_day1_14<-read_plate("../Explant_titration_001/07June16_plate_layout_and_data.csv")
+
+
+titer001_day1_14$Day <- factor(titer001_day1_14$Day,levels = c("1","1 wash","3","7","10","14"))
+
+ggplot(titer001_day1_14, aes(x = Day, y = RLU))+
+  geom_point(aes(color = Condition))+
+  geom_line(aes(group = Condition, color = Condition))+
+  scale_y_log10()
+  
+  
+
+
+```
+
+This is a plot of the luciferase over time from day1- 21 but we included fewer conditions based on the results from the first run of d1-14 with all conditions. Our virus with a dilution factor of 17.19 looks closest.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+
+#Read in data collected 16June16 from day1-day21.We only ran conditions "A","C",and "D" and Bal lot 26. I put the raw data into a file with the meta data in plateR format. 
+
+titer001_day1_21ACD<-read_plate("../Explant_titration_001/16June16_plate_layout_and_data.csv")
+
+
+titer001_day1_21ACD$Day <- factor(titer001_day1_21ACD$Day,levels = c("1 wash","3","7","10","14","17","21"))
+
+ggplot(titer001_day1_21ACD, aes(x = Day, y = RLU))+
+  geom_point(aes(color = Condition))+
+  geom_line(aes(group = Condition, color = Condition))+
+  scale_y_log10()
+```
+
+## Titration 002
+
+Lucia set up a second titration experiment on 14June16 with the following results:
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#Read in data from 07July16 nanoluc assay.
+
+titer002_day1_21<-read_plate("../Explant_titration_002/06July16_plate_layout_and_data.csv")
+
+
+titer002_day1_21$Day <- factor(titer002_day1_21$Day,levels = c("1","1 wash","3","6","8","10","13","15","17", "21"))
+
+ggplot(titer002_day1_21, aes(x = Day, y = RLU))+
+  geom_point(aes(color = Condition))+
+  geom_line(aes(group = Condition, color = Condition))+
+  scale_y_log10()
