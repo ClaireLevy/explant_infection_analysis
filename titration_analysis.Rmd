@@ -2,13 +2,10 @@
 title: "Explant titrations"
 date:
 author:
-output:
-  md_document:
-    variant: markdown_github
+output: pdf_document
   
 ---
 
-## Explant Titrations
 
 
 ### Goal
@@ -23,7 +20,7 @@ This is a plot of luciferase production over days 1 - 14 for multiple conditions
 
 * Day 1 supernatent still contains input virus. 1 wash is still day 1 but after the explants have been washed to remove input virus. 
 
-* Hladik Bal26 lot1 with pfu.ml of 1.45E6 or 7.27E5 look closest to RA/KW's virus.
+* Hladik Bal26 lot1 with pfu/ml of 1.45E6 or 7.27E5 look closest to RA/KW's virus.
 
 
 
