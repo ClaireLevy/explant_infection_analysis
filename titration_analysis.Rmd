@@ -2,7 +2,9 @@
 title: "Explant titrations"
 date:
 author:
-output: pdf_document
+output: 
+md_document:
+    variant: markdown_github
   
 ---
 
@@ -24,10 +26,11 @@ This is a plot of luciferase production over days 1 - 14 for multiple conditions
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
+library(plyr)
 library(dplyr)
 library(plateR)
 library(ggplot2)
-library(plyr)
+
 
 #Read in data collected 07June16 from day1-day14. I put the raw data into a file with the meta data in plateR format
 
@@ -53,7 +56,7 @@ ggplot(titer001_day1_14, aes(x = Day, y = RLU))+
 
 
 ```
-
+----
 This is a plot of the luciferase over time from day1- 21 but we included fewer conditions based on the results from the first run of d1-14 with all conditions. 
 
 * Hladik Bal26 lot1 with a pfu/ml of 7.27E5 (dil. factor of 34.38) looks closest to Bal26 lot1.
@@ -91,7 +94,7 @@ titer001second<-titer001_day1_21ACD%>%
 
 
 ```
-
+----
 ## Titration 002
 
 Lucia set up a second titration experiment on 14June16. 
@@ -121,56 +124,7 @@ ggplot(titer002_day1_21, aes(x = Day, y = RLU))+
   scale_shape_manual(values = c("Hladik Bal lot1" = 16, "Bal26 lot1" = 1, "No virus" = 4))+
   scale_y_log10()
 ```
-
-## Conclusions
-
-* Based on three nanoluc assays from two different titrations, the dilution factors for Hladik Bal lot1 virus that resulted in kinetics that were closest to Bal26 lot1 were 3.64E5, 5.4E5, 7.27E5 (dilution factors of 68.76, 46.3, 34.38) .
-
-Here are side-by-side plots from both titrations showing the Bal26 lot1 and the closest pfu/ml of the Hladik Bal lot1
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-
-#want to plot the RLU for both titrations but just for the conditions that were closest to Bal26 lot1.
-
-# combine the data  frames from titration001 day 1-21(conditions ACD) and titration 002 day 1-21 and then filter.
-
-
-titer_001_002_d1_21<- list(titer001_day1_21ACD, titer002_day1_21)
-
-
-names(titer_001_002_d1_21)<-c("titer001_day1_21ACD","titer002_day1_21")
-
-
-titer_001_002_d1_21 <-bind_rows(titer_001_002_d1_21, .id = "Experiment")
-
-
-#filter to get data for just No virus, Bal26 lot1, and Hladik Bal lot1 with dilution factors of 68.76, 46.3, 34.38
-
-Bal26AndNoVirus <- titer_001_002_d1_21 %>%
-  filter(Virus != "Hladik Bal lot1")
-
-Hladik <- titer_001_002_d1_21 %>%
-  filter(Virus == "Hladik Bal lot1")%>%
-  filter(Dilution_factor ==46.3|Dilution_factor ==34.38)
-
-
-both <- rbind(Bal26AndNoVirus,Hladik)
-
-both$Day <-factor(both$Day, levels = c("1","1 wash", "3","6","7","8","10","13","14","15","17","21"))
-
-
-ggplot(both, aes(x = Day, y = RLU))+
-  geom_point(aes(color = pfu_per_ml, shape = Virus), size = 3)+
-  geom_line(aes(group = pfu_per_ml, color = pfu_per_ml))+
-  scale_shape_manual(values = c("Hladik Bal lot1" = 16, "Bal26 lot1" = 1, "No virus" = 4))+
-  scale_y_log10()+
-  facet_wrap(~Experiment)+
-  ggtitle("Selected pfu/ml from both titrations")+
-  theme(axis.text.x = element_text(angle = 25))
-
-```
-
-
+----
 This is all data for all experiments
 
 
@@ -204,3 +158,11 @@ ggplot(all_data, aes(x = Day, y = RLU))+
   scale_shape_manual(values = c("Hladik Bal lot1" = 16, "Bal26 lot1" = 1, "No virus" = 4))+
   scale_y_log10()+
   theme(axis.text.x = element_text(angle = 25))
+
+```
+
+
+
+## Conclusions
+
+* Based on three nanoluc assays from two different titrations, the dilution factors for Hladik Bal lot1 virus that resulted in kinetics that were closest to Bal26 lot1 were 3.64E5, 5.4E5, 7.27E5 (dilution factors of 68.76, 46.3, 34.38) .
