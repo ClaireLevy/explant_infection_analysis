@@ -22,7 +22,6 @@ This is a plot of the luciferase over time from day1- 21 but we included fewer c
 -   Hladik Bal26 lot2 with a pfu/ml of 7.27E5 (dil. factor of 34.38) looks closest to Bal26 lot1.
 
 ![](titration_analysis_files/figure-markdown_github/unnamed-chunk-2-1.png)
---------------------------------------------------------------------------
 
 Titration 002
 -------------
@@ -32,13 +31,23 @@ Lucia set up a second titration experiment on 14June16.
 -   Hladik Bal with a dilution factor of 5.4E5 (dil. factor 46.3) matches the kinetics of Bal26 lot1.
 
 ![](titration_analysis_files/figure-markdown_github/unnamed-chunk-3-1.png)
---------------------------------------------------------------------------
 
-This is all data for all experiments
+Titration 003
+-------------
+
+On 12July I started third titration testing four different concentrations of pfu/ml : 3E5, 5E5, 1E6,2E6 and 3E6. I also included two "No virus" conditions; one well that was separated from the others by a whole column of wells and another that was in the same column as the other conditions.
 
 ![](titration_analysis_files/figure-markdown_github/unnamed-chunk-4-1.png)
 
-Conclusions
------------
+Summary
+-------
 
--   Based on three nanoluc assays from two different titrations, the dilution factors for Hladik Bal lot2 virus that resulted in kinetics that were closest to Bal26 lot1 were 3.64E5, 5.4E5, 7.27E5 (dilution factors of 68.76, 46.3, 34.38) .
+Here is a plot of just Bal26 lot 1 kinetics in the different experiments. Note that I ran sups from the first titration twice; one up to day14 and once for all the days.
+
+![](titration_analysis_files/figure-markdown_github/unnamed-chunk-6-1.png)
+
+Here are the Bal26 lot 1 kinetics next to the concentration of Hladik Bal lot2 that matched most closely. I am only showing the results from titration001 sups from all days.
+
+-   Bal26 lot1 is always at 1.92E6 PFU/ml
+
+![](titration_analysis_files/figure-markdown_github/unnamed-chunk-7-1.png)

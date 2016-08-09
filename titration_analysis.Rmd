@@ -28,6 +28,7 @@ library(plyr)
 library(dplyr)
 library(plateR)
 library(ggplot2)
+library(stringr)
 
 
 #Read in data collected 07June16 from day1-day14. I put the raw data into a file with the meta data in plateR format
@@ -47,7 +48,7 @@ titer001_day1_14$pfu_per_ml <- mapvalues (titer001_day1_14$pfu_per_ml,from =c(14
 ggplot(titer001_day1_14, aes(x = Day, y = RLU))+
   geom_point(aes(color = pfu_per_ml, shape = Virus),size = 3)+
   geom_line(aes(group = pfu_per_ml, color = pfu_per_ml))+
-  scale_shape_manual(values = c("Hladik Bal lot2" = 16, "Bal26 lot2" = 1, "No virus" = 4))+
+  scale_shape_manual(values = c("Hladik Bal lot2" = 16, "Bal26 lot1" = 1, "No virus" = 4))+
   scale_y_log10()
   
   
@@ -75,6 +76,7 @@ titer001_day1_21ACD$pfu_per_ml <- mapvalues (titer001_day1_21ACD$pfu_per_ml,from
 
 
 #make the dilution factor character so it plays nicely with other dfs that don't non-numeric entries for dil factor ("no virus")
+
 titer001_day1_21ACD$Dilution_factor <-as.character(titer001_day1_21ACD$Dilution_factor)
                    
 ggplot(titer001_day1_21ACD, aes(x = Day, y = RLU))+
@@ -84,15 +86,9 @@ ggplot(titer001_day1_21ACD, aes(x = Day, y = RLU))+
   scale_y_log10()
 
 
-titer001first <- titer001_day1_14%>%
-  filter(Condition == "D", Day == "10")
-
-titer001second<-titer001_day1_21ACD%>%
-  filter(Condition == "D", Day == "10")
-
 
 ```
-----
+
 ## Titration 002
 
 Lucia set up a second titration experiment on 14June16. 
@@ -114,53 +110,111 @@ titer002_day1_21$pfu_per_ml <- mapvalues (titer002_day1_21$pfu_per_ml,from =c(16
   "1.6E6", "1.92E6","1E6","2.4E6","5.4E5"))
 
 
-
-
 ggplot(titer002_day1_21, aes(x = Day, y = RLU))+
   geom_point(aes(color = pfu_per_ml, shape = Virus),size = 3)+
   geom_line(aes(group = pfu_per_ml, color =pfu_per_ml))+
   scale_shape_manual(values = c("Hladik Bal lot2" = 16, "Bal26 lot1" = 1, "No virus" = 4))+
   scale_y_log10()
 ```
-----
-This is all data for all experiments
+
+## Titration 003
 
 
+On 12July I started third titration testing four different concentrations of pfu/ml : 3E5, 5E5, 1E6,2E6 and 3E6. I also included two "No virus" conditions; one well that was separated from the others by a whole column of wells and another that was in the same column as the other conditions. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-#combine all the data and plot together
-
-all_data <- list(titer001_day1_21ACD, titer001_day1_14, titer002_day1_21)
-
-names(all_data)<- c("titer001_day1_21ACD","titer001_day1_14","titer002_day1_21")
-
-all_data<- bind_rows(all_data, .id = "Experiment")
-
-all_data$Day <-factor(all_data$Day)
-
-all_data$Day <-factor(all_data$Day, levels = c("1","1 wash", "3","6","7","8","10","13","14","15","17","21"))
 
 
-#make a column with a unique entry for each row that I can use in the group argument for geom_line
+titer003_day1_20<-read_plate("../Explant_titration_003/04Aug16_whiteplate_layout_and_data.csv")
 
 
-all_data <- all_data %>%
-  mutate (UniqueID = paste(Experiment, Virus, Dilution_factor, sep = "_"))
+titer003_day1_20$Day <- factor(titer003_day1_20$Day,levels = c("1","1 wash","3","6","8","10","13","15","17", "20"))
 
 
 
-ggplot(all_data, aes(x = Day, y = RLU))+
-  geom_point(aes(shape = Virus, color = Experiment), size = 3)+
-  geom_line(aes(group = UniqueID, color = Experiment))+
-  scale_shape_manual(values = c("Hladik Bal lot2" = 16, "Bal26 lot2" = 1, "No virus" = 4))+
+
+titer003_day1_20$pfu_per_ml <- mapvalues (titer003_day1_20$pfu_per_ml,from =c("1.92E+06", "3.00E+06","5.00E+05","3.00E+05", "1.00E+06","2.00E+06"), to = c(
+  "1.92E6","3E6","3E5","5E5","1E6","2E6"))
+
+
+
+ggplot(titer003_day1_20, aes(x = Day, y = RLU))+
+  geom_point(aes(color = pfu_per_ml, shape = Virus),size = 3)+
+  geom_line(aes(group = pfu_per_ml, color = pfu_per_ml))+
+  scale_shape_manual(values = c("Hladik Bal lot2" = 16, "Bal26 lot1" = 1, "Media only background cntl" = 4, "No virus1" = 3, "No virus2" = 6))+
   scale_y_log10()+
-  theme(axis.text.x = element_text(angle = 25))
+  scale_color_discrete(name = "PFU/ml or Treatment")
 
 ```
 
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-## Conclusions
+#combine all the data frames
+compiled <- list(titer001_day1_21ACD, titer001_day1_14, titer002_day1_21, titer003_day1_20)
 
-* Based on three nanoluc assays from two different titrations, the dilution factors for Hladik Bal lot2 virus that resulted in kinetics that were closest to Bal26 lot1 were 3.64E5, 5.4E5, 7.27E5 (dilution factors of 68.76, 46.3, 34.38) .
+names(compiled) <- c("titer001_day1_21ACD","titer001_day1_14","titer002_day1_21","titer003_day1_20")
+
+
+compiled <- bind_rows(compiled, .id = "Experiment")
+```
+
+## Summary
+
+
+Here is a plot of just Bal26 lot 1 kinetics in the different experiments. Note that I ran sups from the first titration twice; one up to day14 and once for all the days.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+#filter for just Bal 26 lot1 and for no virus
+
+Bal26<-filter(compiled, Virus != "Hladik Bal lot2" & Virus != "Media only background cntl")
+
+Bal26$Day<-factor(Bal26$Day, levels = c("1", "1 wash","3", "6","7","8","10","13","14","15","17","20","21"))
+
+
+
+ggplot(Bal26, aes(x = Day, y = RLU))+
+  geom_point(aes(color = Experiment, shape = Virus),size = 3)+
+  geom_line(aes(group = interaction(Experiment,Virus), color = Experiment))+
+  scale_y_log10()+
+  scale_shape_manual(values = c("Bal26 lot1" = 1, "No virus" = 4, "No virus1" = 4, "No virus2" = 4 ))+
+  ggtitle("Bal26 lot 1 and No virus controls")
+
+
+
+```
+
+Here are the Bal26 lot 1 kinetics next to the concentration of Hladik Bal lot2 that matched most closely. I am only showing the results from titration001 sups from all days.
+
+* Bal26 lot1 is always at 1.92E6 PFU/ml
+
+ 
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+Bal26andClosest <- compiled %>%
+filter(pfu_per_ml == "7.27E5"|pfu_per_ml==
+         "2.88E6"|pfu_per_ml =="5.4E5" |pfu_per_ml == "2E6"| pfu_per_ml =="3E6")
+
+Bal26andClosest <- rbind(Bal26andClosest, Bal26)
+
+Bal26andClosest<- Bal26andClosest%>%
+  filter(!grepl("No virus1?2?", Virus))%>%
+  filter(Experiment != "titer001_day1_14")
+
+
+
+Bal26andClosest$Day<-factor(Bal26andClosest$Day, levels = c("1", "1 wash","3", "6","7","8","10","13","14","15","17","20","21"))
+
+
+ggplot(Bal26andClosest, aes(x = Day, y = RLU))+
+  geom_point(aes(color = Experiment, shape = pfu_per_ml),size = 3)+
+  geom_line(aes(group = interaction(Experiment,pfu_per_ml), color = Experiment))+
+  scale_y_log10()+
+  ggtitle("Bal26 lot1 and closest concentrations of Hladik Bal lot2")
+```
+
+
