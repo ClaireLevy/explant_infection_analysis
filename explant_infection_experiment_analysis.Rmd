@@ -1,0 +1,63 @@
+---
+title: "Explant infection experiments"
+output: github_document
+---
+
+Explant infection 001 had the following conditions:
+
+1)Pre-incubate 10^4 SE + virus together, then add to explants
+
+2) Virus only
+
+3) Explants only
+
+4) Pre-incubate 10^4 Hela exos + virus together, then add
+
+5) Pre-incubate 10^5 SE + virus together, then add to explants
+
+6) pre-inc 10^5 Hela exos + virus
+
+The virus concentration was 2E6 pfu/ml
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+library(plyr)
+library(dplyr)
+library(plateR)
+library(ggplot2)
+library(stringr)
+
+
+
+explant_infection_001<-read_plate("../Explant_infection_001/20Sept16_plate_layout_and_data.csv")
+
+
+explant_infection_001<-explant_infection_001%>%
+  mutate(Day = str_trim(Day, side = "both"))
+
+
+#order the factors nicely
+explant_infection_001$Day <- factor(explant_infection_001$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+
+
+ggplot(explant_infection_001, aes(x = Day, y = RLU))+
+  geom_point(aes(color = Treatment,shape = Exo_per_pfu),size = 3)+
+  geom_line(aes(group = interaction(Treatment, Exo_per_pfu),color = Treatment))+
+  scale_y_log10()+
+  ggtitle("Explant_infection_001")
+  
+
+```
+
+Another way of looking at it:
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+ggplot(explant_infection_001, aes(x = Day, y = RLU))+
+  geom_point(aes(color = Treatment),size = 3)+
+  geom_line(aes(group = interaction(Treatment, Exo_per_pfu),color = Treatment))+
+  scale_y_log10()+
+  facet_wrap(~Exo_per_pfu)+
+  ggtitle("Explant_infection_001")
