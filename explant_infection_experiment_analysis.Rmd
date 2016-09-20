@@ -5,7 +5,7 @@ output: github_document
 
 Explant infection 001 had the following conditions:
 
-1)Pre-incubate 10^4 SE + virus together, then add to explants
+1) Pre-incubate 10^4 SE + virus together, then add to explants
 
 2) Virus only
 
