@@ -19,6 +19,6 @@ The virus concentration was 2E6 pfu/ml
 
 ![](explant_infection_experiment_analysis_files/figure-markdown_github/unnamed-chunk-1-1.png)
 
-Another way of looking at it:
+Explant infection 002 had the same conditions as 001
 
 ![](explant_infection_experiment_analysis_files/figure-markdown_github/unnamed-chunk-2-1.png)

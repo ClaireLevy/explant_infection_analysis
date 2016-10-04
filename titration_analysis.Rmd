@@ -183,7 +183,6 @@ ggplot(Bal26, aes(x = Day, y = RLU))+
   ggtitle("Bal26 lot 1 and No virus controls")
 
 
-
 ```
 
 Here are the Bal26 lot 1 kinetics next to the concentration of Hladik Bal lot2 that matched most closely. I am only showing the results from titration001 sups from all days.
