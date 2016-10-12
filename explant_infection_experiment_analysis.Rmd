@@ -152,7 +152,7 @@ ggplot(virus_preinc_003, aes(x = Day, y = RLU))+
 #filter for just the explant + exo preinc conditions and include the explant_only control(number 3). Number 9 is the virus only control for the pre-incubated explant + exos experiment (analogous to #2 in the virus + exo experiment)
 
 explant_preinc_003<-version2_003%>%
-  filter(Number ==3|Number >8)
+  filter(Number ==3|Number >=8)
 
 ggplot(explant_preinc_003, aes(x = Day, y = RLU))+
   geom_point(aes(color = Treatment, shape = Exo_per_pfu),size = 3)+
