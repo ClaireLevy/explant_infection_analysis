@@ -2,29 +2,30 @@
 title: "Explant infection experiments"
 output: github_document
 ---
+Explant infection overview:
+
+Explants are infected and then washed after 20-24hr. After washing, media is replaced with  media containing 0.6ug/ml PHA. PHA-containing media is replaced with plain media after ~24hr.
+
+Luciferase levels in collected supernatent are assesed with the Promega nano-glo kit.
+
 
 Explant infection 001 had the following conditions:
 
-1) Pre-incubate 10^4 SE + virus together, then add to explants
+Pre-incubate virus with exosomes before adding to explants:
 
-2) Virus only
-
-3) Explants only
-
-4) Pre-incubate 10^4 Hela exos + virus together, then add
-
-5) Pre-incubate 10^5 SE + virus together, then add to explants
-
-6) pre-inc 10^5 Hela exos + virus
-
+  * Concentrations: 1E5 and 1E4 exosomes per pfu
+  
+  * Exosomes used: SE and HE
+  
+We also included explant only and virus only controls.
 The virus concentration was 2E6 pfu/ml
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r infection 001, echo=FALSE, message=FALSE, warning=FALSE}
 
 library(plyr)
 library(dplyr)
-library(plateR)
+library(plater)
 library(ggplot2)
 library(stringr)
 
@@ -53,7 +54,7 @@ ggplot(explant_infection_001, aes(x = Day, y = RLU))+
 
 Explant infection 002 had the same conditions as 001
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r infection 002, echo=FALSE, message=FALSE, warning=FALSE}
 explant_infection_002<-read_plate("../Explant_infection_002/04Oct16_plate_layout_and_data.csv")
 
 
@@ -72,3 +73,97 @@ ggplot(explant_infection_002, aes(x = Day, y = RLU))+
   ggtitle("Explant infection 002")
   
 ```
+
+Infection 003 had the following conditions:
+
+Pre-incubate virus with exosomes OR seminal sup before adding to explants:
+
+  * Concentrations: 1E5 and 1E4 exosomes per pfu, 1:50 seminal   sup.
+  
+  * Exosomes used: SE and HE
+
+Pre-incubate explants with exosomes OR seminal sup OR alone before virus is added, same concentrations and exos as above.
+  
+We also included explant only and virus only controls.
+The virus concentration was 2E6 pfu/ml.
+
+PROTOCOL DEVIATIONS: 
+
+* I forgot to remove the PHA-containing media on day 2, so it wasn't replaced with new media until day 3.
+
+* There were 4 explants in the "pre-incubate with 1E5 HE" condition
+
+```{r infection 003, echo=FALSE, message=FALSE, warning=FALSE}
+
+explant_infection_003_plate1<-read_plate("../Explant_infection_003/11Oct16_plate1_layout_and_data.csv")
+
+explant_infection_003_plate2<-read_plate("../Explant_infection_003/11Oct16_plate2_layout_and_data.csv")
+
+explant_infection_003<-rbind(explant_infection_003_plate1,explant_infection_003_plate2)
+
+
+explant_infection_003$Day <- factor(explant_infection_003$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+
+ggplot(explant_infection_003, aes(x = Day, y = RLU))+
+  geom_point(aes(color = Treatment,shape = Exo_per_pfu),size = 2)+
+  geom_line(aes(group = interaction(Treatment, Exo_per_pfu), color = Treatment))+
+  scale_y_log10()+
+  ggtitle("Explant infection 003")
+```
+
+
+
+```{r faceted data, echo = FALSE}
+
+ggplot(explant_infection_003, aes(x = Day, y = RLU))+
+  geom_point(aes(shape = Exo_per_pfu),size = 2)+
+  geom_line(aes(group = interaction(Treatment, Exo_per_pfu)))+
+  scale_y_log10()+
+  ggtitle("Explant infection 003")+
+  facet_wrap(~Treatment)
+```
+
+"virus_preinc" means that the virus alone was at 37C before adding to the explant
+
+"virus_exo_ preinc" means that the virus + exos were at 37C before adding to the explant
+
+```{r different layout version, echo = FALSE}
+
+####### separate explant pre-inc and virus pre-inc ######
+
+
+#trying a different layout
+version2_003_plate1<-read_plate("../Explant_infection_003/version2_11Oct16_plate1_layout_and_data.csv")
+
+
+version2_003_plate2<-read_plate("../Explant_infection_003/version_2_11Oct16_plate2_layout_and_data.csv")
+
+
+
+version2_003<-rbind(version2_003_plate1,version2_003_plate2)
+
+
+version2_003$Day <- factor(version2_003$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+
+
+ggplot(version2_003, aes(x = Day, y = RLU))+
+  geom_point(aes(color = Treatment, shape = Exo_per_pfu),size = 3)+
+  scale_y_log10()
+  
+
+# pre inc virus only
+virusPreinc<- version2_003 %>%
+  filter(str_detect(Incubation, "virus|no"))
+
+ggplot(virusPreinc, aes(x = Day, y = RLU))+
+  geom_point(aes(color = Treatment, shape = Exo_per_pfu),size = 3)+
+  geom_line(aes(group = interaction(Treatment, Exo_per_pfu), color = Treatment))+
+  scale_y_log10()+
+  facet_wrap(~Incubation)
+
+
+explantPreinc<-virusPreinc<- version2_003 %>%
+  filter(str_detect(Incubation, "explant|no"))
+
+
+
