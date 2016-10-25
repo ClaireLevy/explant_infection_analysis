@@ -51,3 +51,12 @@ Here are the Bal26 lot 1 kinetics next to the concentration of Hladik Bal lot2 t
 -   Bal26 lot1 is always at 1.92E6 PFU/ml
 
 ![](titration_analysis_files/figure-markdown_github/unnamed-chunk-7-1.png)
+
+Titration 004
+-------------
+
+This is a titration of the Hladik CM235 nanoluc virus, using Hladik Bal lot2 as a comparison
+
+NOTE: During the virus wash off, one explant from the CM235 dilution factor 8.3 got moved to the condition with the same virus but dilution factor of 83.3.
+
+![](titration_analysis_files/figure-markdown_github/unnamed-chunk-8-1.png)
