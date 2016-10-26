@@ -11,7 +11,7 @@ Luciferase levels in collected supernatent are assesed with the Promega nano-glo
 
 # Explant Infection 001:
 
-Pre-incubate virus with exosomes before adding to explants:
+Pre-incubate virus (vNL_sNLuc.6ATRi.B.Bal.ecto) with exosomes before adding to explants:
 
   * Concentrations: 1E5 and 1E4 exosomes per pfu
   
@@ -29,8 +29,9 @@ library(plater)
 library(ggplot2)
 library(stringr)
 
+options(scipen = 999)
 
-explant_infection_001<-read_plate("../Explant_infection_001/20Sept16_plate_layout_and_data.csv")
+explant_infection_001<-read_plate("../Explant_infection_001/20Sept16_infection001_layout_and_data.csv")
 
 
 explant_infection_001<-explant_infection_001%>%
@@ -41,11 +42,10 @@ explant_infection_001<-explant_infection_001%>%
 explant_infection_001$Day <- factor(explant_infection_001$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
 
 
-ggplot(explant_infection_001, aes(x = Day, y = RLU))+
+ggplot(explant_infection_001, aes(x = Day, y = log10(RLU)))+
   geom_point(aes(color = Treatment,shape = Exo_per_pfu),size = 3)+
   geom_line(aes(group = interaction(Treatment, Exo_per_pfu),color = Treatment))+
-  scale_y_log10()+
-  ggtitle("Explant infection 001")
+ggtitle("Explant infection 001")
   
 ```
 
@@ -55,7 +55,7 @@ ggplot(explant_infection_001, aes(x = Day, y = RLU))+
 * Same conditions as 001
 
 ```{r infection 002, echo=FALSE, message=FALSE, warning=FALSE}
-explant_infection_002<-read_plate("../Explant_infection_002/04Oct16_plate_layout_and_data.csv")
+explant_infection_002<-read_plate("../Explant_infection_002/04Oct16_infection002_layout_and_data.csv")
 
 
 explant_infection_002<-explant_infection_002%>%
@@ -66,10 +66,9 @@ explant_infection_002<-explant_infection_002%>%
 explant_infection_002$Day <- factor(explant_infection_002$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
 
 
-ggplot(explant_infection_002, aes(x = Day, y = RLU))+
+ggplot(explant_infection_002, aes(x = Day, y =log10 (RLU)))+
   geom_point(aes(color = Treatment,shape = Exo_per_pfu),size = 3)+
   geom_line(aes(group = interaction(Treatment, Exo_per_pfu),color = Treatment))+
-  scale_y_log10()+
   ggtitle("Explant infection 002")
   
 ```
@@ -82,7 +81,7 @@ ggplot(explant_infection_002, aes(x = Day, y = RLU))+
 
 This was a two part experiment: 
 
-Pre-incubate virus with exosomes OR seminal sup before adding to explants:
+Pre-incubate virus (vNL_sNLuc.6ATRi.B.Bal.ecto) with exosomes OR seminal sup before adding to explants:
 
   * Controls = explants only and explants with virus that was incubated alone at 37C for ~1hr (like the virus + exos)
 
@@ -103,21 +102,21 @@ PROTOCOL DEVIATIONS:
 #I made two verions of plate layout and data files, the 2nd one seems to work better so I'm using that here. previous committed scripts have the first one too.
 
 
-version2_003_plate1<-read_plate("../Explant_infection_003/version2_11Oct16_plate1_layout_and_data.csv")
+explant_infection_003_plate1<-read_plate("../Explant_infection_003/11Oct16_infection003_plate1_layout_and_data.csv")
 
 
-version2_003_plate2<-read_plate("../Explant_infection_003/version_2_11Oct16_plate2_layout_and_data.csv")
+explant_infection_003_plate2<-read_plate("../Explant_infection_003/11Oct16_infection003_plate2_layout_and_data.csv")
 
 
 
-version2_003<-rbind(version2_003_plate1,version2_003_plate2)
+explant_infection_003<-rbind(explant_infection_003_plate1,explant_infection_003_plate2)
 
 
-version2_003$Day <- factor(version2_003$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+explant_infection_003$Day <- factor(explant_infection_003$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
 
-#split the data into two experiments, but include the explant_only control in both (condition number 3).
+#split the data into two experiments, but include the explant_only control in both (condition code 3).
 
-#One experiment was virus or sup pre-incubated with exos(condition numbers: 1,2(control),5,6,7), the other was explants pre-incubated with exos(condition numbers: 4(control),8-13). 
+#One experiment was virus or sup pre-incubated with exos(condition codes: 1,2(control),5,6,7), the other was explants pre-incubated with exos(condition numbers: 4(control),8-13). 
 
 
 
@@ -130,15 +129,14 @@ version2_003$Day <- factor(version2_003$Day, levels = c("1","1 wash","3","6","8"
 ```{r plot virus+ exo preinc, echo = FALSE}
 
 #filter for just the virus + exo preinc conditions and include the controls (so numbers 1-7)
-virus_preinc_003<- version2_003 %>%
-  filter(Number <8 )
+virus_preinc_003<- explant_infection_003 %>%
+  filter(Code <8 )
 
 
 
-ggplot(virus_preinc_003, aes(x = Day, y = RLU))+
+ggplot(virus_preinc_003, aes(x = Day, y = log10(RLU)))+
   geom_point(aes(color = Treatment, shape = Exo_per_pfu),size = 3)+
   geom_line(aes(group = interaction(Treatment, Exo_per_pfu), color = Treatment))+
-  scale_y_log10()+
   ggtitle("Virus pre-incubated with exosomes or seminal sup")
 
 ```
@@ -151,11 +149,90 @@ ggplot(virus_preinc_003, aes(x = Day, y = RLU))+
 
 #filter for just the explant + exo preinc conditions and include the explant_only control(number 3). Number 9 is the virus only control for the pre-incubated explant + exos experiment (analogous to #2 in the virus + exo experiment)
 
-explant_preinc_003<-version2_003%>%
-  filter(Number ==3|Number >=8)
+explant_preinc_003<-explant_infection_003%>%
+  filter(Code ==3|Code >=8)
 
-ggplot(explant_preinc_003, aes(x = Day, y = RLU))+
+ggplot(explant_preinc_003, aes(x = Day, y = log10(RLU)))+
   geom_point(aes(color = Treatment, shape = Exo_per_pfu),size = 3)+
   geom_line(aes(group = interaction(Treatment, Exo_per_pfu), color = Treatment))+
-  scale_y_log10()+
   ggtitle("Explants pre-incubated with exosomes or seminal sup")
+```
+
+#Explant Infection 004:
+
+* Concentrations: 1E5,1E4, 1E3 and 5E4 exosomes per pfu, 1:50 seminal sup.
+  
+* Exosomes used: SE and HE
+
+* Only did virus (vNL_sNLuc.6ATRi.B.Bal.ecto) and exosome/sup preincubation (no exos + explant preinc)
+
+```{r infection004, message = FALSE, echo = FALSE}
+
+explant_infection_004_plate1<-read_plate("../Explant_infection_004/25OCt16_infection004_plate1_layout_and_data.csv")
+
+
+explant_infection_004_plate2<-read_plate("../Explant_infection_004/25OCt16_infection004_plate2_layout_and_data.csv")
+
+
+explant_infection_004<-rbind(explant_infection_004_plate1, explant_infection_004_plate2)
+
+
+#order the factors nicely
+explant_infection_004$Day <- factor(explant_infection_004$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+
+
+#for some reason the exo per pfu shows up as actual numbers, not scientific notation, even though it is is sci not in excel... plater bug?
+
+explant_infection_004$Exo_per_pfu <- mapvalues(explant_infection_004$Exo_per_pfu, from = c("10000","100000","1000","50000"), to = c("1e4","1e5","1e3","5e4"))
+
+
+ggplot(explant_infection_004, aes(x = Day, y = log10(RLU)))+
+  geom_point(aes(color = Treatment,shape = Exo_per_pfu),size = 3)+
+  geom_line(aes(group = interaction(Treatment, Exo_per_pfu),color = Treatment))+
+  ggtitle("Explant infection 004")
+
+
+
+```
+
+```{r compilation setup, message = FALSE, echo = FALSE}
+
+#This is getting complicated to look at so I'm going to combine the results of multiple experiments to get a better idea of what's going on.
+
+#combining the results of the virus-preinc-with-exos experiments (not the explants with exos one, so just the "virus_preinc_003" df from explant infection 003)
+
+compiled <- list(explant_infection_004,explant_infection_002,explant_infection_001, virus_preinc_003)
+
+names(compiled) <- c("explant_infection_004","explant_infection_002","explant_infection_001", "virus_preinc_003")
+
+
+compiled <- bind_rows(compiled, .id = "Experiment")
+
+
+compiled$Exo_per_pfu<-mapvalues(compiled$Exo_per_pfu, from = c("1.0E+04","1.0E+05"), to = c("1e4","1e5"))
+
+
+compiled$Exo_per_pfu <- factor(compiled$Exo_per_pfu, levels = c("no_exo_no_virus","no_exo","1e3","1e4","5e4","1e5"))
+```
+
+Compilations of results from multiple experiments arranged in a variety of ways:
+
+
+
+```{r compilation plots, message = FALSE, echo = FALSE, fig.height = 7, fig.width = 12}
+
+ggplot(compiled, aes(x = Day, y = log10(RLU)))+
+  geom_point(aes(color = Treatment, shape = Experiment),size = 3)+
+  geom_line(aes(group = interaction(Treatment, Exo_per_pfu, Experiment),color = Treatment))+
+  facet_wrap(~Exo_per_pfu)+
+  ggtitle("Virus pre-incubated with exosomes: faceted by Exo_per_pfu")
+
+ggplot(compiled, aes(x = Day, y = log10(RLU)))+
+  geom_point(aes(color = Exo_per_pfu, shape = Experiment),size = 3)+
+  geom_line(aes(group = interaction(Treatment, Exo_per_pfu, Experiment),color = Exo_per_pfu))+
+  facet_wrap(~Treatment)+
+  ggtitle("Virus pre-incubated with exosomes: faceted by Treatment")
+
+
+
+

@@ -10,7 +10,7 @@ Luciferase levels in collected supernatent are assesed with the Promega nano-glo
 Explant Infection 001:
 ======================
 
-Pre-incubate virus with exosomes before adding to explants:
+Pre-incubate virus (vNL\_sNLuc.6ATRi.B.Bal.ecto) with exosomes before adding to explants:
 
 -   Concentrations: 1E5 and 1E4 exosomes per pfu
 
@@ -36,7 +36,7 @@ Explant Infection 003:
 
 This was a two part experiment:
 
-Pre-incubate virus with exosomes OR seminal sup before adding to explants:
+Pre-incubate virus (vNL\_sNLuc.6ATRi.B.Bal.ecto) with exosomes OR seminal sup before adding to explants:
 
 -   Controls = explants only and explants with virus that was incubated alone at 37C for ~1hr (like the virus + exos)
 
@@ -57,3 +57,18 @@ PROTOCOL DEVIATIONS:
 *Reminder*: In the plot below, "virus only" means that the explants were infected with virus that had been in the fridge (with no exos) for 1hr.
 
 ![](explant_infection_experiment_analysis_files/figure-markdown_github/plot%20explant%20+%20exo%20preinc-1.png)
+
+Explant Infection 004:
+======================
+
+-   Concentrations: 1E5,1E4, 1E3 and 5E4 exosomes per pfu, 1:50 seminal sup.
+
+-   Exosomes used: SE and HE
+
+-   Only did virus (vNL\_sNLuc.6ATRi.B.Bal.ecto) and exosome/sup preincubation (no exos + explant preinc)
+
+![](explant_infection_experiment_analysis_files/figure-markdown_github/infection004-1.png)
+
+Compilations of results from multiple experiments arranged in a variety of ways:
+
+![](explant_infection_experiment_analysis_files/figure-markdown_github/compilation%20plots-1.png)![](explant_infection_experiment_analysis_files/figure-markdown_github/compilation%20plots-2.png)
