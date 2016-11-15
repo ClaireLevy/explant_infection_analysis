@@ -52,11 +52,16 @@ Here are the Bal26 lot 1 kinetics next to the concentration of Hladik Bal lot2 t
 
 ![](titration_analysis_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
-Titration 004
--------------
+Titration 004: CM235 titration 001
+----------------------------------
 
 This is a titration of the Hladik CM235 nanoluc virus, using Hladik Bal lot2 as a comparison
 
 NOTE: During the virus wash off, one explant from the CM235 dilution factor 8.3 got moved to the condition with the same virus but dilution factor of 83.3.
 
-![](titration_analysis_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](titration_analysis_files/figure-markdown_github/cm001-1.png)
+
+Titration 005: CM235 titration 002
+----------------------------------
+
+![](titration_analysis_files/figure-markdown_github/cm002-1.png)
