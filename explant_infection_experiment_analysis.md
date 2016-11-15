@@ -69,6 +69,21 @@ Explant Infection 004:
 
 ![](explant_infection_experiment_analysis_files/figure-markdown_github/infection004-1.png)
 
+Explant Infection 005:
+======================
+
+-   Concentrations: 1E5,1E4, 1E3 and 5E4 exosomes per pfu, 1:50 seminal sup.
+
+-   Exosomes used: SE and HE
+
+-   Only did virus (vNL\_sNLuc.6ATRi.B.Bal.ecto) and exosome/sup preincubation (no exos + explant preinc)
+
+PROTOCOL DEVIATIONS:
+
+-   During virus wash off I skipped a well so conditions 8-11 were off by one on the spin plate. I abandoned those pellets since they got mixed up and started using a new set of wells for the washes for those conditions.
+
+![](explant_infection_experiment_analysis_files/figure-markdown_github/infection005-1.png)
+
 Compilations of results from multiple experiments arranged in a variety of ways:
 
 ![](explant_infection_experiment_analysis_files/figure-markdown_github/compilation%20plots-1.png)![](explant_infection_experiment_analysis_files/figure-markdown_github/compilation%20plots-2.png)

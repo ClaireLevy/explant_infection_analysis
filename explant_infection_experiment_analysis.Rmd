@@ -195,15 +195,61 @@ ggplot(explant_infection_004, aes(x = Day, y = log10(RLU)))+
 
 ```
 
+
+
+
+
+#Explant Infection 005:
+
+* Concentrations: 1E5,1E4, 1E3 and 5E4 exosomes per pfu, 1:50 seminal sup.
+  
+* Exosomes used: SE and HE
+
+* Only did virus (vNL_sNLuc.6ATRi.B.Bal.ecto) and exosome/sup preincubation (no exos + explant preinc)
+
+PROTOCOL DEVIATIONS: 
+
+* During virus wash off I skipped a well so conditions 8-11 were off by one on the spin plate. I abandoned those pellets since they got mixed up and started using a new set of wells for  the washes for those conditions.
+
+
+```{r infection005, message = FALSE, echo = FALSE}
+
+explant_infection_005_plate1<-read_plate("../Explant_infection_005/14Nov16_infection005_plate1_layout_and_data.csv")
+
+
+explant_infection_005_plate2<-read_plate("../Explant_infection_005/14Nov16_infection005_plate2_layout_and_data.csv")
+
+
+explant_infection_005<-rbind(explant_infection_005_plate1, explant_infection_005_plate2)
+
+
+#order the factors nicely
+explant_infection_005$Day <- factor(explant_infection_005$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+
+
+#for some reason the exo per pfu shows up as actual numbers, not scientific notation, even though it is is sci not in excel... plater bug?
+
+explant_infection_005$Exo_per_pfu <- mapvalues(explant_infection_004$Exo_per_pfu, from = c("10000","100000","1000","50000"), to = c("1e4","1e5","1e3","5e4"))
+
+
+
+ggplot(explant_infection_005, aes(x = Day, y = log10(RLU)))+
+  geom_point(aes(color = Treatment,shape = Exo_per_pfu),size = 3)+
+  geom_line(aes(group = interaction(Treatment, Exo_per_pfu),color = Treatment))+
+  ggtitle("Explant infection 005")
+
+```
+
+
 ```{r compilation setup, message = FALSE, echo = FALSE}
 
 #This is getting complicated to look at so I'm going to combine the results of multiple experiments to get a better idea of what's going on.
 
 #combining the results of the virus-preinc-with-exos experiments (not the explants with exos one, so just the "virus_preinc_003" df from explant infection 003)
 
-compiled <- list(explant_infection_004,explant_infection_002,explant_infection_001, virus_preinc_003)
+compiled <- list(explant_infection_005,explant_infection_004,explant_infection_002,explant_infection_001, virus_preinc_003)
 
-names(compiled) <- c("explant_infection_004","explant_infection_002","explant_infection_001", "virus_preinc_003")
+names(compiled) <- c("explant_infection_005","explant_infection_004","explant_infection_002","explant_infection_001", "virus_preinc_003")
 
 
 compiled <- bind_rows(compiled, .id = "Experiment")
@@ -215,6 +261,7 @@ compiled$Exo_per_pfu<-mapvalues(compiled$Exo_per_pfu, from = c("1.0E+04","1.0E+0
 compiled$Exo_per_pfu <- factor(compiled$Exo_per_pfu, levels = c("no_exo_no_virus","no_exo","1e3","1e4","5e4","1e5"))
 ```
 
+
 Compilations of results from multiple experiments arranged in a variety of ways:
 
 
@@ -222,8 +269,8 @@ Compilations of results from multiple experiments arranged in a variety of ways:
 ```{r compilation plots, message = FALSE, echo = FALSE, fig.height = 7, fig.width = 12}
 
 ggplot(compiled, aes(x = Day, y = log10(RLU)))+
-  geom_point(aes(color = Treatment, shape = Experiment),size = 3)+
-  geom_line(aes(group = interaction(Treatment, Exo_per_pfu, Experiment),color = Treatment))+
+  geom_point(aes(color = Experiment, shape = Treatment),size = 3)+
+  geom_line(aes(group = interaction(Treatment, Exo_per_pfu, Experiment),color = Experiment))+
   facet_wrap(~Exo_per_pfu)+
   ggtitle("Virus pre-incubated with exosomes: faceted by Exo_per_pfu")
 
@@ -233,6 +280,4 @@ ggplot(compiled, aes(x = Day, y = log10(RLU)))+
   facet_wrap(~Treatment)+
   ggtitle("Virus pre-incubated with exosomes: faceted by Treatment")
 
-
-
-
+```
