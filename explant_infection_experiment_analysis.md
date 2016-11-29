@@ -84,6 +84,25 @@ PROTOCOL DEVIATIONS:
 
 ![](explant_infection_experiment_analysis_files/figure-markdown_github/infection005-1.png)
 
-Compilations of results from multiple experiments arranged in a variety of ways:
+Explant Infection 006:
+======================
+
+-   Concentrations: 1E5,1E4, 1E3 and 5E4 exosomes per pfu, 1:50 seminal sup.
+
+-   Exosomes used: SE and HE
+
+-   Only did virus (vNL\_sNLuc.6ATRi.B.Bal.ecto) and exosome/sup preincubation (no exos + explant preinc)
+
+-   Did 2 reps for each condition
+
+PROTOCOL DEVIATIONS:
+
+-   Did not collect sups for conditions 1, 5, 9, 2, 6 and 10 on day 10 (by mistake) but did replace media.
+
+First check how the replicates look ![](explant_infection_experiment_analysis_files/figure-markdown_github/checking%20replicates-1.png)
+
+![](explant_infection_experiment_analysis_files/figure-markdown_github/plot%20avg%20reps-1.png)
+
+Compilations of results from multiple experiments (not including 006) arranged in a variety of ways:
 
 ![](explant_infection_experiment_analysis_files/figure-markdown_github/compilation%20plots-1.png)![](explant_infection_experiment_analysis_files/figure-markdown_github/compilation%20plots-2.png)

@@ -37,9 +37,18 @@ explant_infection_001<-read_plate("../Explant_infection_001/20Sept16_infection00
 explant_infection_001<-explant_infection_001%>%
   mutate(Day = str_trim(Day, side = "both"))
 
+#function for ordering day factors nicely:
+orderDays<- function(exp_df){
+  factor(exp_df$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+}
 
-#order the factors nicely
-explant_infection_001$Day <- factor(explant_infection_001$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+explant_infection_001$Day<-orderDays(explant_infection_001)
+
+#Map the exo per pfu values so they will match the later experiments
+
+explant_infection_001$Exo_per_pfu <- mapvalues(explant_infection_001$Exo_per_pfu, from = c("1.0E+04","1.0E+05"), to = c("1E4","1E5"))
+
+
 
 
 ggplot(explant_infection_001, aes(x = Day, y = log10(RLU)))+
@@ -57,13 +66,13 @@ ggtitle("Explant infection 001")
 ```{r infection 002, echo=FALSE, message=FALSE, warning=FALSE}
 explant_infection_002<-read_plate("../Explant_infection_002/04Oct16_infection002_layout_and_data.csv")
 
-
-explant_infection_002<-explant_infection_002%>%
-  mutate(Day = str_trim(Day, side = "both"))
-
-
 #order the factors nicely
-explant_infection_002$Day <- factor(explant_infection_002$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+explant_infection_002$Day<-orderDays(explant_infection_002)
+
+
+#Map the exo per pfu values so they will match the later experiments
+explant_infection_002$Exo_per_pfu <- mapvalues(explant_infection_002$Exo_per_pfu, from = c("1.0E+04","1.0E+05"), to = c("1E4","1E5"))
+
 
 
 ggplot(explant_infection_002, aes(x = Day, y =log10 (RLU)))+
@@ -112,7 +121,14 @@ explant_infection_003_plate2<-read_plate("../Explant_infection_003/11Oct16_infec
 explant_infection_003<-rbind(explant_infection_003_plate1,explant_infection_003_plate2)
 
 
-explant_infection_003$Day <- factor(explant_infection_003$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+explant_infection_003$Day <- orderDays(explant_infection_003)
+
+
+
+#Map the exo per pfu values so they will match the later experiments
+
+explant_infection_003$Exo_per_pfu <- mapvalues(explant_infection_003$Exo_per_pfu, from = c("1.0E+04","1.0E+05"), to = c("1E4","1E5"))
+
 
 #split the data into two experiments, but include the explant_only control in both (condition code 3).
 
@@ -178,12 +194,12 @@ explant_infection_004<-rbind(explant_infection_004_plate1, explant_infection_004
 
 
 #order the factors nicely
-explant_infection_004$Day <- factor(explant_infection_004$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+explant_infection_004$Day <- orderDays(explant_infection_004)
 
 
-#for some reason the exo per pfu shows up as actual numbers, not scientific notation, even though it is is sci not in excel... plater bug?
+#for some reason the exo per pfu shows up as actual numbers, not scientific notation, even though it is is sci not in excel... This is a plater BUG
 
-explant_infection_004$Exo_per_pfu <- mapvalues(explant_infection_004$Exo_per_pfu, from = c("10000","100000","1000","50000"), to = c("1e4","1e5","1e3","5e4"))
+explant_infection_004$Exo_per_pfu <- mapvalues(explant_infection_004$Exo_per_pfu, from = c("10000","100000","1000","50000"), to = c("1E4","1E5","1E3","5E4"))
 
 
 ggplot(explant_infection_004, aes(x = Day, y = log10(RLU)))+
@@ -194,9 +210,6 @@ ggplot(explant_infection_004, aes(x = Day, y = log10(RLU)))+
 
 
 ```
-
-
-
 
 
 #Explant Infection 005:
@@ -224,12 +237,11 @@ explant_infection_005<-rbind(explant_infection_005_plate1, explant_infection_005
 
 
 #order the factors nicely
-explant_infection_005$Day <- factor(explant_infection_005$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+explant_infection_005$Day <- orderDays(explant_infection_005)
 
+#for some reason the exo per pfu shows up as actual numbers, not scientific notation, even though it is is sci not in excel... plater bug!
 
-#for some reason the exo per pfu shows up as actual numbers, not scientific notation, even though it is is sci not in excel... plater bug?
-
-explant_infection_005$Exo_per_pfu <- mapvalues(explant_infection_004$Exo_per_pfu, from = c("10000","100000","1000","50000"), to = c("1e4","1e5","1e3","5e4"))
+explant_infection_005$Exo_per_pfu <- mapvalues(explant_infection_005$Exo_per_pfu, from = c("10000","100000","1000","50000"), to = c("1E4","1E5","1E3","5E4"))
 
 
 
@@ -238,6 +250,70 @@ ggplot(explant_infection_005, aes(x = Day, y = log10(RLU)))+
   geom_line(aes(group = interaction(Treatment, Exo_per_pfu),color = Treatment))+
   ggtitle("Explant infection 005")
 
+```
+
+#Explant Infection 006:
+
+* Concentrations: 1E5,1E4, 1E3 and 5E4 exosomes per pfu, 1:50 seminal sup.
+  
+* Exosomes used: SE and HE
+
+* Only did virus (vNL_sNLuc.6ATRi.B.Bal.ecto) and exosome/sup preincubation (no exos + explant preinc)
+
+* Did 2 reps for each condition
+
+PROTOCOL DEVIATIONS: 
+
+* Did not collect sups for conditions 1, 5, 9, 2, 6 and 10 on day 10 (by mistake) but did replace media.
+
+
+```{r infection006, message = FALSE, echo = FALSE}
+
+explant_infection_006_plate1<-read_plate("../Explant_infection_006/23Nov16_infection006_plate1_layout_and_data.csv")
+
+
+explant_infection_006_plate2<-read_plate("../Explant_infection_006/23Nov16_infection006_plate2_layout_and_data.csv")
+
+
+explant_infection_006_plate3<-read_plate("../Explant_infection_006/23Nov16_infection006_plate3_layout_and_data.csv")
+
+
+explant_infection_006<-rbind(explant_infection_006_plate1, explant_infection_006_plate2,explant_infection_006_plate3)
+
+
+#order the factors nicely
+explant_infection_006$Day <- orderDays(explant_infection_006)
+
+
+#fix sci not weirdness due to plateR bug( all are in sci notation in excel but plater converts some of them to regular notation...)
+
+explant_infection_006$Exo_per_pfu <- mapvalues(explant_infection_006$Exo_per_pfu, from = c("5.00E+04","1.00E+04","100000","1000","50000"), to = c("5E4",
+"1E4","1E5","1E3","5E4"))
+
+```
+
+First check how the replicates look
+```{r checking replicates, message = FALSE, echo = FALSE}
+ggplot(explant_infection_006, aes(x = Day, y = log10(RLU)))+
+  geom_point(aes(color = Treatment,shape = Exo_per_pfu),size = 3)+
+  facet_wrap(~Treatment+Exo_per_pfu)+
+  ggtitle("Explant infection 006")
+
+```
+
+```{r avg replicates, message = FALSE, echo = FALSE}
+
+avgReps_explant_infection_006<-
+  explant_infection_006 %>%
+  group_by(Treatment, Exo_per_pfu,Day,Condition, Code)%>%
+  summarise(meanRLU = mean(RLU))
+```
+
+```{r plot avg reps, message = FALSE, echo = FALSE}
+ggplot(avgReps_explant_infection_006, aes(x = Day, y = log10(meanRLU)))+
+  geom_point(aes(color = Treatment,shape = Exo_per_pfu),size = 3)+
+  geom_line(aes(group = interaction(Treatment, Exo_per_pfu),color = Treatment))+
+  ggtitle("Explant infection (avg of 2 replicates)")
 ```
 
 
@@ -255,14 +331,12 @@ names(compiled) <- c("explant_infection_005","explant_infection_004","explant_in
 compiled <- bind_rows(compiled, .id = "Experiment")
 
 
-compiled$Exo_per_pfu<-mapvalues(compiled$Exo_per_pfu, from = c("1.0E+04","1.0E+05"), to = c("1e4","1e5"))
 
-
-compiled$Exo_per_pfu <- factor(compiled$Exo_per_pfu, levels = c("no_exo_no_virus","no_exo","1e3","1e4","5e4","1e5"))
+compiled$Exo_per_pfu <- factor(compiled$Exo_per_pfu, levels = c("no_exo_no_virus","no_exo","1E3","1E4","5E4","1E5"))
 ```
 
 
-Compilations of results from multiple experiments arranged in a variety of ways:
+Compilations of results from multiple experiments (not including 006) arranged in a variety of ways:
 
 
 
