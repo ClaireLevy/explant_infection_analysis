@@ -313,7 +313,7 @@ avgReps_explant_infection_006<-
 ggplot(avgReps_explant_infection_006, aes(x = Day, y = log10(meanRLU)))+
   geom_point(aes(color = Treatment,shape = Exo_per_pfu),size = 3)+
   geom_line(aes(group = interaction(Treatment, Exo_per_pfu),color = Treatment))+
-  ggtitle("Explant infection (avg of 2 replicates)")
+  ggtitle("Explant infection 006 (avg of 2 replicates)")
 ```
 
 
