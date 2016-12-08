@@ -3,10 +3,10 @@ Explant titrations
 
 ### Goal
 
-Titrate lot2 of vNL\_sNLuc\_6ATRi.B.Bal.ecto based on the kinetics of RA and KW's virus; "Bal26 lot1", at the concentration that they use for infection experiments (1.92E6 pfu/ml)
+Titrate lot2 of vNL\_sNLuc\_6ATRi.B.Bal.ecto based on the kinetics of RA and KW's virus; "Bal26 lot1", at the concentration that they use for infection experiments (1.92E6 pfu/ml). Then titrate vNL\_sNLuc.6ATRi.AE.CM235.ecto using our Bal titer as a reference.
 
-Titration 001
--------------
+Bal Titration 001
+-----------------
 
 This is a plot of luciferase production over days 1 - 14 for multiple conditions. The "Hladik Bal lot2" virus is vNL\_sNLuc\_6ATRi.B.Bal.ecto lot2 made by Greg Mize.
 
@@ -23,8 +23,8 @@ This is a plot of the luciferase over time from day1- 21 but we included fewer c
 
 ![](titration_analysis_files/figure-markdown_github/unnamed-chunk-2-1.png)
 
-Titration 002
--------------
+Bal Titration 002
+-----------------
 
 Lucia set up a second titration experiment on 14June16.
 
@@ -32,8 +32,8 @@ Lucia set up a second titration experiment on 14June16.
 
 ![](titration_analysis_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
-Titration 003
--------------
+Bal Titration 003
+-----------------
 
 On 12July I started third titration testing four different concentrations of pfu/ml : 3E5, 5E5, 1E6,2E6 and 3E6. I also included two "No virus" conditions; one well that was separated from the others by a whole column of wells and another that was in the same column as the other conditions.
 
@@ -52,8 +52,8 @@ Here are the Bal26 lot 1 kinetics next to the concentration of Hladik Bal lot2 t
 
 ![](titration_analysis_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
-Titration 004: CM235 titration 001
-----------------------------------
+CM235 titration 001
+-------------------
 
 This is a titration of the Hladik CM235 nanoluc virus, using Hladik Bal lot2 as a comparison
 
@@ -61,7 +61,14 @@ NOTE: During the virus wash off, one explant from the CM235 dilution factor 8.3 
 
 ![](titration_analysis_files/figure-markdown_github/cm001-1.png)
 
-Titration 005: CM235 titration 002
-----------------------------------
+CM235 titration 002
+-------------------
 
 ![](titration_analysis_files/figure-markdown_github/cm002-1.png)
+
+CM235 titration 003
+-------------------
+
+Note: When I did the luminometer measurement I didn't get data for the condition with the dilution factor of 2.5 due to a mistake with the luminometer software. I ran just those sups the next day, after the sups were at 4C overnight.
+
+![](titration_analysis_files/figure-markdown_github/cm003-1.png)

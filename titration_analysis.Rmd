@@ -10,9 +10,10 @@ output: github_document
 
 ### Goal
 
-Titrate lot2 of vNL_sNLuc_6ATRi.B.Bal.ecto based on the kinetics of RA and KW's virus; "Bal26 lot1", at the concentration that they use for infection experiments (1.92E6 pfu/ml)
+Titrate lot2 of vNL_sNLuc_6ATRi.B.Bal.ecto based on the kinetics of RA and KW's virus; "Bal26 lot1", at the concentration that they use for infection experiments (1.92E6 pfu/ml).
+Then titrate vNL_sNLuc.6ATRi.AE.CM235.ecto using our Bal titer as a reference.
  
-## Titration 001
+##  Bal Titration 001
 
 This is a plot of luciferase production over days 1 - 14 for multiple conditions. The "Hladik Bal lot2" virus is vNL_sNLuc_6ATRi.B.Bal.ecto lot2 made by Greg Mize.
 
@@ -89,7 +90,7 @@ ggplot(titer001_day1_21ACD, aes(x = Day, y = RLU))+
 
 ```
 
-## Titration 002
+## Bal Titration 002
 
 Lucia set up a second titration experiment on 14June16. 
 
@@ -117,7 +118,7 @@ ggplot(titer002_day1_21, aes(x = Day, y = RLU))+
   scale_y_log10()
 ```
 
-## Titration 003
+## Bal Titration 003
 
 
 On 12July I started third titration testing four different concentrations of pfu/ml : 3E5, 5E5, 1E6,2E6 and 3E6. I also included two "No virus" conditions; one well that was separated from the others by a whole column of wells and another that was in the same column as the other conditions. 
@@ -217,7 +218,7 @@ ggplot(Bal26andClosest, aes(x = Day, y = RLU))+
 ```
 
 
-## Titration 004: CM235 titration 001
+## CM235 titration 001
 
 This is a titration of the Hladik CM235 nanoluc virus, using Hladik Bal lot2 as a comparison
 
@@ -243,7 +244,7 @@ ggplot(titerCM001, aes(x = Day, y = RLU))+
   ggtitle("CM235 titer 001")
 ```
 
-## Titration 005: CM235 titration 002
+## CM235 titration 002
 
 
 ```{r cm002, echo=FALSE, message=FALSE, warning=FALSE}
@@ -265,4 +266,25 @@ ggplot(titerCM002, aes(x = Day, y = RLU))+
 
 ```
   
+## CM235 titration 003
+  
+  Note: When I did the luminometer measurement I didn't get data for the condition with the dilution factor of 2.5 due to a mistake with the luminometer software. I ran just those sups the next day, after the sups were at 4C overnight.
+  
+```{r cm003, echo=FALSE, message=FALSE, warning=FALSE}
+titerCM003<-read_plate("../Explant_titration_006_CM235_3/6Dec16_CMtiter003_layout_and_data.csv")
 
+#order the factors nicely
+titerCM003$Day <- factor(titerCM003$Day,levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+
+#make the dilution factor into factors
+
+titerCM003$Dilution_factor <- factor(titerCM003$Dilution_factor, levels = c("explant_only","2.5","5","7.5","10","12.5","15"))
+
+                                                                         
+ggplot(titerCM003, aes(x = Day, y = RLU))+
+  geom_point(aes(color = Dilution_factor, shape= Virus),size = 3)+
+  geom_line(aes(group = interaction(Virus, Dilution_factor),color = Dilution_factor))+
+  scale_y_log10()+
+  ggtitle("CM235 titer 003")
+
+```
