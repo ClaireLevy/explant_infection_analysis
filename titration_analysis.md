@@ -72,3 +72,10 @@ CM235 titration 003
 Note: When I did the luminometer measurement I didn't get data for the condition with the dilution factor of 2.5 due to a mistake with the luminometer software. I ran just those sups the next day, after the sups were at 4C overnight.
 
 ![](titration_analysis_files/figure-markdown_github/cm003-1.png)
+
+CM235 titration 004
+-------------------
+
+This is the same experiment as CM titer 003
+
+![](titration_analysis_files/figure-markdown_github/cm004-1.png)
