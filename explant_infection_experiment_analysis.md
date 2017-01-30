@@ -18,6 +18,62 @@ Pre-incubate virus (vNL\_sNLuc.6ATRi.B.Bal.ecto) with exosomes before adding to 
 
 We also included explant only and virus only controls.
 
+``` r
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+library(plyr)
+library(dplyr)
+```
+
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:plyr':
+    ## 
+    ##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+    ##     summarize
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+``` r
+library(plater)
+library(ggplot2)
+library(stringr)
+
+options(scipen = 999)
+
+explant_infection_001<-read_plate("../Explant_infection_001/20Sept16_infection001_layout_and_data.csv")
+
+
+explant_infection_001<-explant_infection_001%>%
+  mutate(Day = str_trim(Day, side = "both"))
+
+#function for ordering day factors nicely:
+orderDays<- function(exp_df){
+  factor(exp_df$Day, levels = c("1","1 wash","3","6","8","10","13","15","17","20"))
+}
+
+explant_infection_001$Day<-orderDays(explant_infection_001)
+
+#Map the exo per pfu values so they will match the later experiments
+
+explant_infection_001$Exo_per_pfu <- mapvalues(explant_infection_001$Exo_per_pfu, from = c("1.0E+04","1.0E+05"), to = c("1E4","1E5"))
+
+
+
+
+ggplot(explant_infection_001, aes(x = Day, y = log10(RLU)))+
+  geom_point(aes(color = Treatment,shape = Exo_per_pfu),size = 3)+
+  geom_line(aes(group = interaction(Treatment, Exo_per_pfu),color = Treatment))+
+ggtitle("Explant infection 001")
+```
+
 ![](explant_infection_experiment_analysis_files/figure-markdown_github/infection%20001-1.png)
 
 Explant infection 002
@@ -105,4 +161,4 @@ First check how the replicates look ![](explant_infection_experiment_analysis_fi
 
 Compilations of results from multiple experiments (not including 006) arranged in a variety of ways:
 
-![](explant_infection_experiment_analysis_files/figure-markdown_github/compilation%20plots-1.png)![](explant_infection_experiment_analysis_files/figure-markdown_github/compilation%20plots-2.png)
+![](explant_infection_experiment_analysis_files/figure-markdown_github/compilation%20plots-1.png)
