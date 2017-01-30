@@ -307,7 +307,7 @@ ggplot(explant_infection_006, aes(x = Day, y = log10(RLU)))+
 avgReps_explant_infection_006<-
   explant_infection_006 %>%
   group_by(Treatment, Exo_per_pfu,Day,Condition, Code)%>%
-  summarise(meanRLU = mean(RLU))
+  summarise(RLU = mean(RLU))
 ```
 
 ```{r plot avg reps, message = FALSE, echo = FALSE}
@@ -324,7 +324,10 @@ ggplot(avgReps_explant_infection_006, aes(x = Day, y = log10(meanRLU)))+
 
 #combining the results of the virus-preinc-with-exos experiments (not the explants with exos one, so just the "virus_preinc_003" df from explant infection 003)
 
-compiled <- list(explant_infection_006,explant_infection_005,explant_infection_004,explant_infection_002,explant_infection_001, virus_preinc_003)
+
+#also note that for exp 006, I did replicates of each condition, so the data here are averaged reps.
+
+compiled <- list(avgReps_explant_infection_006,explant_infection_005,explant_infection_004,explant_infection_002,explant_infection_001, virus_preinc_003)
 
 names(compiled) <- c("explant_infection_006","explant_infection_005","explant_infection_004","explant_infection_002","explant_infection_001", "virus_preinc_003")
 
@@ -349,7 +352,6 @@ ggplot(compiled, aes(x = Day, y = log10(RLU)))+
   facet_wrap(~Exo_per_pfu)+
   ggtitle("Virus pre-incubated with exosomes: faceted by Exo_per_pfu")
 
-
 ```
 
 ```{r compilation subset for LV}
@@ -357,9 +359,11 @@ ggplot(compiled, aes(x = Day, y = log10(RLU)))+
 #Lucia wants a day 8 data for all the experiments, so I will subset and export that here:
 #remember that is is only a compilation of the results from the virus-preinc-with-exos experiments (not the explants with exos data  from explant infection 003)
 
+#also note that for exp 006, I did replicates of each condition, so the data here are averaged reps.
+
 day8_compiled <- compiled %>%
   filter(Day ==  "8")
 
-write.csv(day8_compiled, file = "day8_compiled_explant_Bal_preinc_with_exos.csv")
+write.csv(day8_compiled, file = "day8_compiled_explant_Bal_preinc_with_exos.csv", row.names = FALSE)
 
 ```
