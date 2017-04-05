@@ -29,6 +29,7 @@ library(dplyr)
 library(plater)
 library(ggplot2)
 library(stringr)
+library(tidyr)
 
 options(scipen = 999)
 
@@ -56,7 +57,11 @@ ggplot(explant_infection_001, aes(x = Day, y = log10(RLU)))+
   geom_point(aes(color = Treatment,shape = Exo_per_pfu),size = 3)+
   geom_line(aes(group = interaction(Treatment, Exo_per_pfu),color = Treatment))+
 ggtitle("Explant infection 001")
-  
+
+
+
+
+
 ```
 
 
@@ -366,4 +371,65 @@ day8_compiled <- compiled %>%
 
 write.csv(day8_compiled, file = "day8_compiled_explant_Bal_preinc_with_exos.csv", row.names = FALSE)
 
+```
+
+
+```{r AUC calculations set up}
+library(MESS)
+
+#What is the min value for all the control conditions?
+
+minCntl <- compiled %>%
+filter(Condition == "explant_only")%>%
+  group_by(Experiment)%>%
+  summarise(minRLU = min (RLU))
+
+
+AUCcompiled <- merge(compiled, minCntl, by = "Experiment")
+
+
+x<-AUCcompiled %>%
+  filter(Condition != "explant_only")%>%
+  mutate(corrected_RLU = RLU - minRLU)%>%
+  filter(Day != "1 wash")%>%
+  mutate(Day = as.numeric(as.character(Day)))%>%
+  filter(Day >= 6 & Day <=15)%>%
+  group_by(Experiment, Condition)%>%
+  select(Experiment, Treatment, Day, Condition, corrected_RLU)%>%
+  filter(Experiment == "explant_infection_001")
+
+
+x<-spread(x, key = Condition, value = corrected_RLU)
+
+write.csv(x, file = "AUC_test.csv")
+
+AUCcompiled <- AUCcompiled %>%
+  filter(Condition != "explant_only")%>%
+  mutate(corrected_RLU = RLU - minRLU)%>%
+  filter(Day != "1 wash")%>%
+  mutate(Day = as.numeric(as.character(Day)))%>%
+  filter(Day >= 6 & Day <=15)%>%
+  group_by(Experiment, Condition)%>%
+  summarise(AUC = auc(x = Day, y = corrected_RLU))
+  
+
+
+  
+
+#trying to do some AUC stuff
+
+#filter to just get one condition and start at day 6, the lowest point
+#then make a column called "newRLU" which is the RLU minus the lowest value for the control (i.e. the background)
+
+x<-explant_infection_001 %>%
+  select(Condition, Day, RLU) %>%
+  filter(Condition == "1E4_SE_preinc", Day != "1" & Day != "1 wash" & Day != "3")%>%
+  mutate(newRLU = RLU - min(explant_infection_001$RLU))
+
+
+#make the days numeric
+x$Day<- as.numeric(as.character(x$Day))
+
+#calculate the AUC. This is the same number as I get using prism and setting the "baseline" to the min for the control condition..
+z<- auc(x = x$Day, y = x$newRLU)
 ```
